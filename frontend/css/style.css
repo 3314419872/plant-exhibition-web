@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  background: #f4f7f5;
+  color: #222;
+}
+
+header {
+  background: #ffffff;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e0e5e2;
+}
+
+nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+button {
+  border: 1px solid #3d7a5b;
+  background: #ffffff;
+  color: #2f6b4f;
+  padding: 0.4rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+button.active,
+button:hover {
+  background: #2f6b4f;
+  color: #ffffff;
+}
+
+main {
+  padding: 2rem;
+}
+
+.cards,
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.card,
+.result,
+.detail,
+.identify {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.thumb img,
+.result img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+.placeholder {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7ece9;
+  border-radius: 0.75rem;
+  color: #7a8a80;
+}
+
+.error {
+  color: #c0392b;
+  margin-top: 1rem;
+}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>植物馆展览系统</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <h1>植物馆展览系统</h1>
+        <nav>
+          <button :class="{ active: tab === 'home' }" @click="tab = 'home'">首页</button>
+          <button :class="{ active: tab === 'list' }" @click="tab = 'list'">植物列表</button>
+          <button :class="{ active: tab === 'identify' }" @click="tab = 'identify'">图片识别</button>
+        </nav>
+      </header>
+
+      <main>
+        <section v-if="tab === 'home'" class="hero">
+          <h2>欢迎来到植物馆</h2>
+          <p>浏览植物资料，搜索感兴趣的内容，也可以上传照片检索对应植物。</p>
+          <button @click="tab = 'list'">开始浏览</button>
+        </section>
+
+        <section v-if="tab === 'list'" class="plant-list">
+          <div class="toolbar">
+            <input v-model="query" placeholder="搜索植物名称或简介" @keyup.enter="fetchPlants" />
+            <button @click="fetchPlants">搜索</button>
+          </div>
+
+          <div class="cards">
+            <div v-for="plant in plants" :key="plant.id" class="card" @click="selectedPlant = plant">
+              <div class="thumb">
+                <img v-if="plant.image_path" :src="'/api/image?path=' + encodeURIComponent(plant.image_path)" alt="" />
+                <div v-else class="placeholder">暂无图片</div>
+              </div>
+              <h3>{{ plant.name }}</h3>
+              <p class="science">{{ plant.scientific_name }}</p>
+              <p class="category">{{ plant.category }}</p>
+            </div>
+          </div>
+
+          <div v-if="selectedPlant" class="detail">
+            <h2>{{ selectedPlant.name }}</h2>
+            <p><strong>学名：</strong>{{ selectedPlant.scientific_name || '暂无' }}</p>
+            <p><strong>分类：</strong>{{ selectedPlant.category || '暂无' }}</p>
+            <p><strong>简介：</strong>{{ selectedPlant.description || '暂无' }}</p>
+            <button @click="selectedPlant = null">关闭详情</button>
+          </div>
+        </section>
+
+        <section v-if="tab === 'identify'" class="identify">
+          <h2>上传植物照片</h2>
+          <input type="file" accept="image/*" @change="handleUpload" />
+          <div v-if="identifyLoading">识别中...</div>
+          <div v-if="identifyError" class="error">{{ identifyError }}</div>
+          <div class="results">
+            <div v-for="item in identifyResults" :key="item.plant.id" class="result">
+              <img v-if="item.plant.image_path" :src="'/api/image?path=' + encodeURIComponent(item.plant.image_path)" alt="" />
+              <div v-else class="placeholder">暂无图片</div>
+              <h3>{{ item.plant.name }}</h3>
+              <p>相似度：{{ (item.score * 100).toFixed(2) }}%</p>
+              <button @click="selectedPlant = item.plant">查看详情</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>
