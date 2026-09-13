@@ -13,7 +13,12 @@ from seed import seed as seed_database
 
 
 BASE_DIR = Path(__file__).resolve().parent
-FRONTEND_DIR = BASE_DIR.parent / "frontend"
+if (BASE_DIR / "index.html").exists():
+    FRONTEND_DIR = BASE_DIR
+elif (BASE_DIR.parent / "frontend" / "index.html").exists():
+    FRONTEND_DIR = BASE_DIR.parent / "frontend"
+else:
+    FRONTEND_DIR = BASE_DIR / "frontend"
 
 Base.metadata.create_all(bind=engine)
 seed_database()

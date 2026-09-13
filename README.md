@@ -1,3 +1,13 @@
+---
+title: 植物馆展览系统
+emoji: 🌿
+colorFrom: green
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 植物馆展览系统
 
 这是一个基于 FastAPI + Vue 3 的动态网页项目，包含植物资料展示、搜索与图片识别功能。
@@ -28,7 +38,17 @@ uvicorn main:app --reload
 
 当前图片识别使用的是颜色直方图特征，便于快速演示。后续可以替换为 ResNet50、CLIP 或其他植物识别模型，以提高准确率。
 
-## 云端部署（Render）
+## Hugging Face Spaces 部署
+
+1. 登录 [Hugging Face](https://huggingface.co/)。
+2. 创建一个新的 Space。
+3. Space SDK 选择 **Docker**。
+4. 把当前项目上传到这个 Space。
+5. 上传完成后 Hugging Face 会自动构建，并给你一个公网访问地址。
+
+项目根目录的 `Dockerfile` 已经按 Hugging Face Spaces 要求配置好，应用端口为 `7860`。
+
+## Render 部署
 
 1. 把本项目上传到 GitHub。
 2. 在 [Render](https://render.com) 创建 Web Service。
